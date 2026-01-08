@@ -1,100 +1,184 @@
-<div class="hero min-h-screen"
-  style="background-image: url(https://img.daisyui.com/images/stock/photo-1507358522600-9f71e620c44e.webp);">
-  <div class="hero-overlay"></div>
-  <div class="hero-content text-neutral-content text-center">
-    <div class="max-w-md">
-      <h1 class="mb-5 text-5xl font-bold">
-        Bet on yourself
+<!-- Hero Section -->
+<div class="hero min-h-screen bg-base-200">
+  <div class="hero-content text-center">
+    <div class="max-w-3xl">
+      <h1 class="text-5xl md:text-6xl font-bold mb-6">
+        Bet on Yourself
       </h1>
-      <p class="mb-5">
-        Personal challenges with social proof.
-        <br>
+      <p class="text-xl md:text-2xl mb-8">
+        Personal challenges with social proof.<br>
         Let friends keep you honest.
       </p>
-      <div class="avatar-group -space-x-6 justify-center mb-5">
-        <div class="avatar">
-          <div class="w-24">
-            <img src="https://img.daisyui.com/images/profile/demo/batperson@192.webp" />
+
+      <div class="flex flex-wrap gap-4 justify-center mb-12">
+        <% if current_user %>
+          <%= link_to "My Challenges", challenge_stories_path, class: "btn btn-primary btn-lg" %>
+        <% else %>
+          <%= link_to "Get Started", new_webauthn_registration_path, class: "btn btn-primary btn-lg" %>
+          <%= link_to "Sign In", new_webauthn_session_path, class: "btn btn-outline btn-lg" %>
+        <% end %>
+      </div>
+
+      <!-- Active Users -->
+      <div class="avatar-group -space-x-6 justify-center mb-4">
+        <% [1,2,3,4].each do |_| %>
+          <div class="avatar">
+            <div class="w-12">
+              <img src="https://picsum.photos/96/96?random=<%= _ %>" alt="User avatar" />
+            </div>
           </div>
-        </div>
-        <div class="avatar">
-          <div class="w-24">
-            <img src="https://img.daisyui.com/images/profile/demo/spiderperson@192.webp" />
-          </div>
-        </div>
-        <div class="avatar">
-          <div class="w-24">
-            <img src="https://img.daisyui.com/images/profile/demo/averagebulk@192.webp" />
-          </div>
-        </div>
-        <div class="avatar">
-          <div class="w-24">
-            <img src="https://img.daisyui.com/images/profile/demo/wonderperson@192.webp" />
-          </div>
+        <% end %>
+      </div>
+      <p class="text-sm opacity-70 mb-12">
+        Join <%= User.count %> people taking on challenges
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- Features Section -->
+<div class="py-20 bg-base-100">
+  <div class="container mx-auto px-4">
+    <h2 class="text-4xl font-bold text-center mb-16">How It Works</h2>
+
+    <div class="grid md:grid-cols-4 gap-8">
+      <!-- Feature 1 -->
+      <div class="card bg-base-200">
+        <div class="card-body items-center text-center">
+          <div class="text-5xl mb-4">🎯</div>
+          <h3 class="card-title">Create a Challenge</h3>
+          <p>Set your goal and timeline. Whether it's daily gym visits, learning a skill, or building a habit.</p>
         </div>
       </div>
-      <ul class="steps">
+
+      <!-- Feature 2 -->
+      <div class="card bg-base-200">
+        <div class="card-body items-center text-center">
+          <div class="text-5xl mb-4">👥</div>
+          <h3 class="card-title">Invite Friends</h3>
+          <p>Share with friends who'll keep you accountable. They'll see your progress and cheer you on.</p>
+        </div>
+      </div>
+
+      <!-- Feature 3 -->
+      <div class="card bg-base-200">
+        <div class="card-body items-center text-center">
+          <div class="text-5xl mb-4">🏆</div>
+          <h3 class="card-title">Set Rewards</h3>
+          <p>Pledge rewards or bet with friends. Complete your challenge and earn prizes from your supporters.</p>
+        </div>
+      </div>
+
+      <!-- Feature 4 -->
+      <div class="card bg-base-200">
+        <div class="card-body items-center text-center">
+          <div class="text-5xl mb-4">📸</div>
+          <h3 class="card-title">Share Progress</h3>
+          <p>Post daily check-ins with photos. Track your streak and celebrate milestones together.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Progress Timeline Demo -->
+<div class="py-20 bg-base-200">
+  <div class="container mx-auto px-4">
+    <h2 class="text-4xl font-bold text-center mb-8">Track Your Journey</h2>
+    <p class="text-center text-lg mb-12 max-w-2xl mx-auto">
+      Visual progress tracking keeps you motivated. See your streak grow day by day.
+    </p>
+
+    <div class="max-w-2xl mx-auto">
+      <ul class="steps w-full">
         <li class="step step-primary" data-content="✓">
-          <%= (Date.today - 3.days).strftime("%d %B") %>
+          <%= (Date.today - 4.days).strftime("%d %B") %>
         </li>
         <li class="step step-primary" data-content="✓"></li>
-        <li class="step step-warning" data-content="?"></li>
+        <li class="step step-primary" data-content="✓"></li>
+        <li class="step step-warning" data-content="⏰"></li>
 
-        <li class="step"></li>
         <li class="step">
-          <%= (Date.today + 4.days).strftime("%d %B") %>
+          <%= (Date.today + 2.days).strftime("%d %B") %>
         </li>
       </ul>
-      <div>
-        <div class="chat chat-start">
-          <div class="chat-image avatar">
-            <div class="w-10 rounded-full">
-              <img alt="Tailwind CSS chat bubble component"
-                src="https://img.daisyui.com/images/profile/demo/yellingcat@94.webp" />
-            </div>
-          </div>
-          <div class="chat-header">
-            Obi-Wan Kenobi
-            <time class="text-xs opacity-50">12:45</time>
-          </div>
-          <div class="chat-bubble">You were the Chosen One!</div>
-          <div class="chat-footer opacity-50">Delivered</div>
-        </div>
-        <div class="chat chat-end">
-          <div class="chat-image avatar">
-            <div class="w-10 rounded-full">
-              <img alt="Tailwind CSS chat bubble component"
-                src="https://img.daisyui.com/images/profile/demo/yellingwoman@94.webp" />
-            </div>
-          </div>
-          <div class="chat-header">
-            Anakin
-            <time class="text-xs opacity-50">12:46</time>
-          </div>
-          <div class="chat-bubble">I hate you!</div>
-          <div class="chat-footer opacity-50">Seen at 12:46</div>
-        </div>
-        <div class="chat chat-start">
-          <div class="chat-image avatar">
-            <div class="w-10 rounded-full">
-              <img alt="Tailwind CSS chat bubble component"
-                src="https://img.daisyui.com/images/profile/demo/yellingcat@94.webp" />
-            </div>
-          </div>
-          <div class="chat-header">
-            Obi-Wan Kenobi
-            <time class="text-xs opacity-50">12:45</time>
-          </div>
-          <div class="chat-bubble">OK</div>
-          <div class="chat-footer opacity-50">Delivered</div>
-        </div>
-      </div>
-
-      <div class="pb-12">
-        User registions recently
-        <%= line_chart User.where(created_at: 14.days.ago..Time.current).group_by_day(:created_at).count %>
-      </div>
-
     </div>
+  </div>
+</div>
+
+<!-- Social Proof / Chat Section -->
+<div class="py-20 bg-base-100">
+  <div class="container mx-auto px-4">
+    <h2 class="text-4xl font-bold text-center mb-8">Friends Keep You Honest</h2>
+    <p class="text-center text-lg mb-12 max-w-2xl mx-auto">
+      Real accountability through social interaction. Get support when you need it.
+    </p>
+
+    <div class="max-w-md mx-auto">
+      <div class="chat chat-start">
+        <div class="chat-image avatar">
+          <div class="w-10 rounded-full">
+            <img alt="User avatar" src="https://picsum.photos/40/40?random=10" />
+          </div>
+        </div>
+        <div class="chat-header mb-1">
+          Sarah
+          <time class="text-xs opacity-50">2 hours ago</time>
+        </div>
+        <div class="chat-bubble">Nice streak! Keep it going! 💪</div>
+      </div>
+
+      <div class="chat chat-end">
+        <div class="chat-image avatar">
+          <div class="w-10 rounded-full">
+            <img alt="User avatar" src="https://picsum.photos/40/40?random=11" />
+          </div>
+        </div>
+        <div class="chat-header mb-1">
+          You
+          <time class="text-xs opacity-50">1 hour ago</time>
+        </div>
+        <div class="chat-bubble chat-bubble-primary">Thanks! Day 4 done ✓</div>
+      </div>
+
+      <div class="chat chat-start">
+        <div class="chat-image avatar">
+          <div class="w-10 rounded-full">
+            <img alt="User avatar" src="https://picsum.photos/40/40?random=12" />
+          </div>
+        </div>
+        <div class="chat-header mb-1">
+          Mike
+          <time class="text-xs opacity-50">30 mins ago</time>
+        </div>
+        <div class="chat-bubble">Inspiring! Just started my challenge 🔥</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA Section -->
+<div class="py-20 bg-base-200">
+  <div class="container mx-auto px-4 text-center">
+    <h2 class="text-4xl font-bold mb-6">Ready to Start?</h2>
+    <p class="text-xl mb-8 max-w-2xl mx-auto">
+      Join friends taking on challenges and becoming their best selves.
+    </p>
+
+    <div class="flex flex-wrap gap-4 justify-center">
+      <% if current_user %>
+        <%= link_to "Create Your Challenge", new_challenge_story_path, class: "btn btn-primary btn-lg" %>
+      <% else %>
+        <%= link_to "Sign Up Now", new_webauthn_registration_path, class: "btn btn-primary btn-lg" %>
+      <% end %>
+    </div>
+
+    <% if User.where(created_at: 14.days.ago..Time.current).any? %>
+      <div class="mt-16 max-w-3xl mx-auto">
+        <h3 class="text-2xl font-bold mb-6">Growing Every Day</h3>
+        <%= line_chart ChallengeCheckIn.where(created_at: 14.days.ago..Time.current).group_by_day(:created_at).count, 
+            library: { backgroundColor: 'transparent' } %>
+      </div>
+    <% end %>
   </div>
 </div>
