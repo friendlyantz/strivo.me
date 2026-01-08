@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
   private
 
   def likely_webview?
-    ua = request.user_agent.downcase
+    ua = request.user_agent.to_s.downcase
     android_webview = ua.include?("wv")  # Android WebView Lollipop+
     ios_webview = /iphone|ipad|ipod/.match?(ua) && !/safari/.match?(ua)
     android_webview || ios_webview || cookies[:telegram_webview] == "true"

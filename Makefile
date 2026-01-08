@@ -47,6 +47,10 @@ letter_opener:
 deploy:
 	kamal deploy
 
+.PHONY: console
+console:
+	kamal console
+
 .PHONY: js_outdated
 js_outdated:
 	./bin/importmap outdated
@@ -92,6 +96,7 @@ usage:
 	@echo "before deploying run: export EMAIL=your@email.com"
 	@echo "${YELLOW}make load-deploy-secrets${NC}      load deploy secrets. then manually export SESSION_TOKEN"
 	@echo "${YELLOW}make deploy${NC}                   deploy"
+	@echo "${YELLOW}make console${NC}                  prod console"
 	@echo
 	@echo "${YELLOW}make run${NC}                      launch app"
 	@echo
