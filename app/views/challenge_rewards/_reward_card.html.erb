@@ -16,7 +16,7 @@
     <% if reward.status == 'pending' && @challenge_story.finished? %>
       <div class="card-actions justify-end mt-4">
         <% if reward.receiver.user == current_user %>
-          <%= button_to "Mark as Fulfilled", fulfill_challenge_story_challenge_reward_path(@challenge_story, reward), 
+          <%= button_to "Mark as Received", fulfill_challenge_story_challenge_reward_path(@challenge_story, reward), 
               method: :patch, 
               class: "btn btn-success btn-sm" %>
         <% end %>
