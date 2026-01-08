@@ -1,26 +1,32 @@
 class ChallengeRewardsController < ApplicationController
   include ActionView::RecordIdentifier
 
-  before_action :require_current_user!
+  before_action :require_current_user!, except: [:index]
   before_action :set_challenge_story
   before_action :set_reward, only: [:fulfill, :cancel]
   before_action :verify_receiver, only: [:fulfill]
   before_action :verify_giver, only: [:cancel]
 
   def index
-    return @rewards_received = @rewards_given = @rewards_others = [] unless current_user
-
-    @current_challenge_participant = @challenge_story.challenge_participants.find_by(user: current_user)
-    return @rewards_received = @rewards_given = @rewards_others = [] unless @current_challenge_participant
-
-    # Load all rewards once with eager loading
     all_rewards = @challenge_story.challenge_rewards.includes(giver: :user, receiver: :user).to_a
 
-    # Partition in-memory to avoid multiple queries
-    @rewards_received = all_rewards.select { |r| r.receiver_id == @current_challenge_participant.id }
-    @rewards_given = all_rewards.select { |r| r.giver_id == @current_challenge_participant.id }
-    my_reward_ids = (@rewards_received + @rewards_given).map(&:id)
-    @rewards_others = all_rewards.reject { |r| my_reward_ids.include?(r.id) }
+    if current_user
+      @current_challenge_participant = @challenge_story.challenge_participants.find_by(user: current_user)
+      if @current_challenge_participant
+        @rewards_received = all_rewards.select { |r| r.receiver_id == @current_challenge_participant.id }
+        @rewards_given = all_rewards.select { |r| r.giver_id == @current_challenge_participant.id }
+        my_reward_ids = (@rewards_received + @rewards_given).map(&:id)
+        @rewards_others = all_rewards.reject { |r| my_reward_ids.include?(r.id) }
+      else
+        @rewards_received = []
+        @rewards_given = []
+        @rewards_others = all_rewards
+      end
+    else
+      @rewards_received = []
+      @rewards_given = []
+      @rewards_others = all_rewards
+    end
   end
 
   def new

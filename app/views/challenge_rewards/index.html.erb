@@ -27,8 +27,7 @@
         <span>No rewards have been pledged yet.</span>
       </div>
     </div>
-  <% else %>
-
+  <% elsif @current_challenge_participant %>
     <% unless @rewards_received.empty? %>
       <div class="divider"></div>
       <h2 class="text-xl font-semibold mb-4">Rewards Pledged to You</h2>
@@ -58,5 +57,13 @@
         <% end %>
       </div>
     <% end %>
+  <% else %>
+    <div class="divider"></div>
+    <h2 class="text-xl font-semibold mb-4">All Rewards</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <% @rewards_others.each do |reward| %>
+        <%= render "reward_card", reward: reward, is_giver: false %>
+      <% end %>
+    </div>
   <% end %>
 </div>
