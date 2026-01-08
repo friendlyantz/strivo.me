@@ -1,0 +1,26 @@
+<% demo_challenges = ChallengeStory.where(
+  id: 
+    [
+      "00000000-0000-4000-8000-000000000001",
+      "00000000-0000-4000-8000-000000000002",
+      "00000000-0000-4000-8000-000000000003"
+    ]
+) %>
+
+<% if demo_challenges.any?  %>
+  <div class="divider my-12 text-base-content/60">
+    <span class="flex items-center gap-2">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+      </svg>
+      Get Inspired
+      <span class="badge badge-ghost badge-outline text-xs ml-2">Demo only</span>
+    </span>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+    <% demo_challenges.each do |challenge_story| %>
+      <%= render "challenge_stories/challenge_story_card", challenge_story: challenge_story %>
+    <% end %>
+  </div>
+<% end %>
