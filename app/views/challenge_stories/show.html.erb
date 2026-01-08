@@ -1,9 +1,5 @@
 <% content_for :title, @challenge_story.title %>
 <div class="md:w-2/3 w-full pt-4">
-
-  <% if @likely_webview_shared_url %>
-    <%= render "application/alerts/unsupported_browser", url: @likely_webview_shared_url %>
-  <% end %>
   <div class="flex justify-between items-center mb-6">
 
     <%= link_to challenge_stories_path, class: "btn btn-outline btn-sm items-center gap-2", "data-turbo-frame": "_top" do %>

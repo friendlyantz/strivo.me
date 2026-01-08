@@ -21,10 +21,6 @@ class ChallengeStoriesController < ApplicationController
   end
 
   def show
-    if likely_webview?
-      @likely_webview_shared_url = params[:url] || root_url
-    end
-
     @challenge_story = ChallengeStory
       .includes(
         challenge_participants: [:user, :challenge_check_ins],
