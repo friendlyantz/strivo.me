@@ -30,7 +30,7 @@ class ChallengeStory < ApplicationRecord
   end
 
   def latest_photo_check_in
-    challenge_check_ins.joins(:photo_attachment).last
+    challenge_check_ins.joins(:photo_attachment).first
   end
 
   def liked_by?(user)

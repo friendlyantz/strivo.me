@@ -40,7 +40,35 @@
         </div>
       <% end %>
     <% else %>
-      <p class="text-center my-10">No challenge stories found.</p>
+      <div class="col-span-full">
+        <div class="hero min-h-[60vh]">
+          <div class="hero-content text-center">
+            <div class="max-w-md">
+              <div class="text-8xl mb-6">🎯</div>
+              <h2 class="text-3xl font-bold mb-4">No Challenges Yet</h2>
+              <p class="text-lg mb-8">
+                Start your first challenge and invite friends to keep you accountable.
+              </p>
+              
+              <%= link_to new_challenge_story_path, class: "btn btn-primary btn-lg mb-6" do %>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                </svg>
+                Create Your First Challenge
+              <% end %>
+              
+              <div class="divider">OR</div>
+              
+              <div class="alert alert-info">
+                <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span>Have an invite link? Open it to join a friend's challenge!</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     <% end %>
   </div>
 </div>

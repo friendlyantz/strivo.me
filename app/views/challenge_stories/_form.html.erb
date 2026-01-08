@@ -34,8 +34,8 @@
           <span class="label-text font-semibold">Rules</span>
         <% end %>
         <%= form.text_area :description, 
-          class: "textarea textarea-bordered h-32 w-full #{challenge_story.errors[:description].any? ? 'textarea-error' : ''}", 
-          placeholder: "Describe the challenge rules and rewards. \n\ni.e. Let's exercise every day for 7 days!\nPhoto check-in daily.\nLoser buys lunch!" %>
+          class: "textarea textarea-bordered h-42 w-full #{challenge_story.errors[:description].any? ? 'textarea-error' : ''}", 
+          placeholder: "Describe the challenge rules and rewards. \n\ni.e. Let's exercise every day for 7 days!\nPhoto check-in daily.\nLosers buy lunch!\n\nYou can pledge individual rewards too." %>
         <% if challenge_story.errors[:description].any? %>
           <label class="label">
             <span class="label-text-alt text-error"><%= challenge_story.errors[:description].first %></span>
