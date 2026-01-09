@@ -35,8 +35,8 @@ server:
 tailwind:
 	bin/rails tailwindcss:watch
 
-.PHONY: load-deploy-secrets
-load-deploy-secrets:
+.PHONY: load_deploy_secrets
+load_deploy_secrets:
 	bw unlock
 
 .PHONY: letter_opener
@@ -63,20 +63,24 @@ js_audit:
 lint:
 	rake standard:fix
 
-.PHONY: lint-unsafe
-lint-unsafe:
+.PHONY: lint_unsafe
+lint_unsafe:
 	rake standard:fix_unsafely
 
-.PHONY: lint-checkonly
-lint-checkonly:
+.PHONY: lint_checkonly
+lint_checkonly:
 	rake standard
 
-# .PHONY: audit-dependencies
-# audit-dependencies:
+.PHONY: lint_erb_partial
+lint_erb_partial:
+	bundle exec erb_lint --enable-linters partial_instance_variable --lint-all
+
+# .PHONY: audit_dependencies
+# audit_dependencies:
 # 	bundle exec bundle-audit
 
 # .PHONY: ci
-# ci: lint-checkonly audit-dependencies test
+# ci: lint_checkonly audit_dependencies test
 
 .PHONY: usage
 usage:
@@ -94,7 +98,7 @@ usage:
 # 	@echo "${YELLOW}make test${NC}                     run tests"
 	@echo
 	@echo "before deploying run: export EMAIL=your@email.com"
-	@echo "${YELLOW}make load-deploy-secrets${NC}      load deploy secrets. then manually export SESSION_TOKEN"
+	@echo "${YELLOW}make load_deploy_secrets${NC}      load deploy secrets. then manually export SESSION_TOKEN"
 	@echo "${YELLOW}make deploy${NC}                   deploy"
 	@echo "${YELLOW}make console${NC}                  prod console"
 	@echo
@@ -104,8 +108,9 @@ usage:
 	@echo "${YELLOW}make js_audit${NC}                 audit js dependencies,"
 	@echo
 	@echo "${YELLOW}make lint${NC}                     lint app"
-	@echo "${YELLOW}make lint-unsafe${NC}              lint app(UNSAFE)"
-# 	@echo "${YELLOW}make lint-checkonly${NC}           check lintintg"
-# 	@echo "${YELLOW}make audit-dependencies${NC}       security audit of dependencies"
+	@echo "${YELLOW}make lint_unsafe${NC}              lint app(UNSAFE)"
+	@echo "${YELLOW}make lint_checkonly${NC}           check lintintg"
+	@echo "${YELLOW}make lint_erb_partial${NC}         lint erb partials for instance variables"
+# 	@echo "${YELLOW}make audit_dependencies${NC}       security audit of dependencies"
 # 	@echo "${YELLOW}make ci${NC}                       ci to check linting and run tests"
 	@echo

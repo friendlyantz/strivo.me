@@ -72,6 +72,7 @@ group :development do
   gem "database_consistency", require: false
   gem "htmlbeautifier" # For ERB formatting in VSCode
   gem "letter_opener_web" # Preview emails in browser during development
+  gem "erb_lint" # Detect misues PartialInstanceVariable / localVariable
 end
 
 group :test do
