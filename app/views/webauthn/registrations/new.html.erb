@@ -22,7 +22,9 @@
 
     <%= render partial: 'application/js_error' %>
 
-    <%= link_to 'Sign In Instead', new_webauthn_session_path, class: "btn btn-primary mt-4" %>
+    <%= link_to new_webauthn_session_path do %>
+      <%= render Button::Component.new(text: "Sign In Instead", color: "primary", button_css_options: "w-full") %>
+    <% end %>
   </fieldset>
 
   <% if likely_webview? %>

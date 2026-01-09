@@ -46,5 +46,6 @@ module TakeOnMe
     end
 
     config.autoload_paths << Rails.root.join("spec/system/pages") if Rails.env.test?
+    config.autoload_paths << Rails.root.join("app/views/components")
   end
 end

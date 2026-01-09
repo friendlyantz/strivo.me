@@ -2,15 +2,11 @@
 <div class="md:w-2/3 w-full pt-4">
   <div class="flex justify-between items-center mb-6">
 
-    <%= link_to challenge_stories_path, class: "btn btn-outline btn-sm items-center gap-2", "data-turbo-frame": "_top" do %>
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
-      </svg>
-      My Challenges
+    <%= link_to challenge_stories_path do %>
+      <%= render Button::Component.new(color: "outline", icon: :arrow_left, text: "My Challenges") %>
     <% end %>
 
     <div class="flex items-center gap-3">
-
       <%= render 'challenge_stories/share_challenge', url: challenge_story_url(@challenge_story) %>
       <%= render 'challenge_stories/likes', challenge_story: @challenge_story %>
     </div>

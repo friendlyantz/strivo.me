@@ -8,8 +8,8 @@
     <p class="text-sm">Welcome to the challenge, <%= @current_challenge_participant.name %>!</p>
   </div>
 
-  <%= link_to challenge_participant_path(@current_challenge_participant), method: :delete, class: "btn btn-sm btn-ghost", data: { turbo_confirm: "Are you sure you want to leave this challenge?" } do %>
-    Leave Challenge 
+  <%= link_to challenge_participant_path(@current_challenge_participant), method: :delete, data: { turbo_confirm: "Are you sure you want to leave this challenge?" } do %>
+    <%= render Button::Component.new( color: "ghost", text: "Leave Challenge")  %>
   <% end %>
 
 </div>

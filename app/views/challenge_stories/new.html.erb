@@ -4,15 +4,12 @@
     <h1 class="font-bold text-4xl mb-2">Start a New Challenge</h1>
     <p class="text-base-content/70">Create a challenge and invite others to join you!</p>
   </div>
-  
+
   <%= render "form", challenge_story: @challenge_story %>
-  
+
   <div class="mt-4">
     <%= link_to challenge_stories_path, class: "btn btn-ghost" do %>
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-      </svg>
-      Back to Challenges
+      <%= render Button::Component.new(color: "outline", icon: :arrow_left, text: "Back to Challenges") %>
     <% end %>
   </div>
 </div>

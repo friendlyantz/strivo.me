@@ -20,10 +20,15 @@
 
       <%= render partial: 'application/js_error' %>
 
-      <%= link_to 'Register Instead', new_webauthn_registration_path(return_to: session[:return_to]), class: "btn btn-secondary mt-4" if session[:return_to] %>
-      <%= link_to 'Register Instead', new_webauthn_registration_path, class: "btn btn-secondary mt-2" unless session[:return_to] %>
+      <%# TODO: make return_to redirect work %>
+      <%= link_to (session[:return_to] ? new_webauthn_registration_path(return_to: session[:return_to]) : new_webauthn_registration_path) do %>
+        <%= render Button::Component.new(text: "Register Instead", color: "secondary", button_css_options: "w-full") %>
+      <% end %>
 
-      <%= link_to "Sign in with email", new_email_session_path, class: "btn btn-neutral w-full mt-3" %>
+      <%= link_to  new_email_session_path do %>
+        <%= render Button::Component.new(text: "Sign in with email", color: "neutral", button_css_options: "w-full") %>
+      <% end %>
+
     </fieldset>
   </div>
 

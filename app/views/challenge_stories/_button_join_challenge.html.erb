@@ -1,12 +1,12 @@
 <%# locals: (colour_scheme: "primary") %>
 <%= link_to challenge_participants_path(challenge_story_id: @challenge_story.id), data: { turbo_method: :post } do %>
   <turbo-frame id="story-<%= @challenge_story.id %>-joining_participant">
-    <button class="btn btn-<%= colour_scheme %> gap-2">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
-      </svg>
-      Join Challenge
-      <div class="badge badge-sm bg-<%= colour_scheme %>-content/20"><%= @challenge_story.available_spots %> <%= 'spot'.pluralize(@challenge_story.available_spots) %> left</div>
-    </button>
+    <%= render Button::Component.new(
+      color: colour_scheme,
+      icon: :user_join,
+      text: "Join Challenge",
+      badge_text: "#{@challenge_story.available_spots} #{'spot'.pluralize(@challenge_story.available_spots)} left",
+      badge_color: colour_scheme
+    )  %>
   </turbo-frame>
 <% end %>

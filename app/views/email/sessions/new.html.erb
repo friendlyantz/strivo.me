@@ -41,7 +41,9 @@
       <% end %>
     <% end %>
 
-    <%= link_to "Sign In with Passkey", new_webauthn_session_path, class: "btn btn-secondary w-full mt-4" %>
+    <%= link_to new_webauthn_session_path do %>
+      <%=  render Button::Component.new(color: "secondary", text: "Sign In with Passkey", button_css_options: "w-full mt-4") %>
+    <% end %>
   </fieldset>
 
 </div>

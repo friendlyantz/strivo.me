@@ -5,15 +5,12 @@
       <h1 class="font-bold text-4xl mb-2">Edit Challenge</h1>
       <p class="text-base-content/70">Update your challenge details</p>
     </div>
-    
+
     <%= render "form", challenge_story: @challenge_story %>
-    
+
     <div class="mt-4">
-      <%= link_to challenge_story_path(@challenge_story), class: "btn btn-ghost", "data-turbo-frame": "_top" do %>
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-        </svg>
-        Cancel
+      <%= link_to challenge_story_path(@challenge_story), "data-turbo-frame": "_top" do %>
+        <%= render Button::Component.new(text: "Cancel", icon: :x, color: "ghost") %>
       <% end %>
     </div>
   <% end%>

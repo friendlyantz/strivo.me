@@ -19,11 +19,8 @@
               <p class="text-lg mb-8">
                 Start your first challenge and invite friends to keep you accountable.
               </p>
-              <%= link_to new_challenge_story_path, class: "btn btn-primary btn-lg mb-6" do %>
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                </svg>
-                Create Your First Challenge
+              <%= link_to new_challenge_story_path do %>
+                <%= render Button::Component.new(color: "primary", icon: :plus, text: "Create Your First Challenge", button_css_options: "btn-lg") %>
               <% end %>
               <div class="divider">OR</div>
               <div class="alert alert-info">

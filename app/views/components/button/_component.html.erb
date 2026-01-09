@@ -1,0 +1,10 @@
+<div class="btn btn-<%= c.color %> <%= c.button_css_options %> gap-2 mt-2 mb-2">
+  <%= c.icon_svg %>
+  <%= c.text %>
+
+  <% if c.badge_text.present? %>
+    <div class="badge badge-sm bg-<%= c.badge_color %>-content/20">
+      <%= c.badge_text %>
+    </div>
+  <% end %>
+</div>

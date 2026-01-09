@@ -2,11 +2,14 @@
   <h1 class="text-2xl font-bold mb-6">Rewards for "<%= @challenge_story.title %>"</h1>
 
   <div class="flex flex-wrap gap-2 mb-6">
-    <%= link_to "Back to Challenge", challenge_story_path(@challenge_story), class: "btn btn-outline" %>
+    <%= link_to challenge_story_path(@challenge_story) do %>
+      <%= render Button::Component.new(text: "Back to Challenge", icon: :arrow_left, color: "outline") %>
+    <% end %>
 
     <% if @current_challenge_participant %>
-      <%= link_to "Pledge a New Reward", new_challenge_story_challenge_reward_path(@challenge_story), 
-          class: "btn btn-primary" %>
+      <%= link_to  new_challenge_story_challenge_reward_path(@challenge_story) do %>
+        <%= render Button::Component.new(text: "Pledge a New Reward", icon: :plus, color: "primary") %>
+      <% end %>
 
 
       <% if !@challenge_story.completed? && @challenge_story.finished? %>

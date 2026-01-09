@@ -60,21 +60,13 @@
       <div class="divider"></div>
 
       <div class="flex flex-wrap gap-2 justify-end">
-        <%= link_to challenge_story_challenge_rewards_path(challenge_story), class: "btn btn-outline btn-sm gap-2" do %>
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-          </svg>
-          View All
-          <div class="badge badge-sm"><%= challenge_story.challenge_rewards_count %></div>
+        <%= link_to challenge_story_challenge_rewards_path(challenge_story) do %>
+          <%= render Button::Component.new( color: "outline", icon: :eye, text: "View All", badge_text: challenge_story.challenge_rewards_count )  %>
         <% end %>
 
         <% if challenge_story.active_participants.exists?(user: current_user) %>
-          <%= link_to new_challenge_story_challenge_reward_path(challenge_story), class: "btn btn-warning btn-sm gap-2" do %>
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-            </svg>
-            Pledge Reward
+          <%= link_to new_challenge_story_challenge_reward_path(challenge_story) do %>
+            <%= render Button::Component.new( color: "warning", icon: :plus, text: "Pledge Reward")  %>
           <% end %>
         <% end %>
       </div>
@@ -88,13 +80,14 @@
 
         <% if challenge_story.active_participants.exists?(user: current_user) %>
           <% if challenge_story.active_participants.count > 1%>
-            <%= link_to new_challenge_story_challenge_reward_path(challenge_story), class: "btn btn-warning gap-2" do %>
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-              </svg>
-              Pledge First Reward
+            <%= link_to new_challenge_story_challenge_reward_path(challenge_story) do %>
+
+              <%= render Button::Component.new( color: "warning", icon: :plus, text: "Pledge First Reward")  %>
+
             <% end %>
           <% else %>
+
+            <%# TODO: banner component %>
             <div class="alert alert-info max-w-md mx-auto">
               <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-5 w-5" fill="none" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -104,18 +97,23 @@
                 <%= render 'challenge_stories/share_challenge', url: challenge_story_url(challenge_story) %>
               </div>
             </div>
+
           <% end %>
         <% elsif current_user %>
           <% if challenge_story.at_capacity? %>
-            <div class="tooltip" data-tip="Challenge is at capacity (max <%= ChallengeStory::MAX_PARTICIPANTS %> participants)">
-              <button class="btn btn-disabled" disabled>Challenge Full</button>
-            </div>
+
+            <%= render Button::Component.new(
+                color: "disabled",
+                text: "Challenge Full",
+                badge_text: "max #{ChallengeStory::MAX_PARTICIPANTS} participants",
+            )  %>
+
           <% else %>
 
             <%= render "button_join_challenge", colour_scheme: "primary" %>
 
           <% end %>
-        <% else %>
+        <% elsif !current_user %>
 
           <%= render 'shared/call_to_action_sign_up' %>
         <% end %>

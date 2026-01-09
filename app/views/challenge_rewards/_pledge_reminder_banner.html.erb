@@ -13,11 +13,8 @@
           Show your support!
         </p>
       </div>
-      <%= link_to new_challenge_story_challenge_reward_path(current_challenge_participant.challenge_story), class: "btn btn-warning btn-sm gap-1", data: { turbo: "false" } do %>
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-        </svg>
-        Pledge Now
+      <%= link_to new_challenge_story_challenge_reward_path(current_challenge_participant.challenge_story), data: { turbo: "false" } do %>
+        <%= render Button::Component.new( color: "warning", icon: :plus, text: "Pledge Now")  %>
       <% end %>
     </div>
   <% end %>
