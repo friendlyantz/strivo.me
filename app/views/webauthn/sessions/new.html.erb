@@ -1,4 +1,4 @@
-<div class="mt-28">
+<div class="mt-8">
   <%= render partial: 'webauthn/alerts/feature_detection' %>
 
   <div class="flex flex-col gap-4 max-w-xs">
@@ -26,5 +26,12 @@
       <%= link_to "Sign in with email", new_email_session_path, class: "btn btn-neutral w-full mt-3" %>
     </fieldset>
   </div>
+
+  <% if likely_webview? %>
+    <div class="container mx-auto px-4">
+      <%= render "application/alerts/unsupported_browser", url: request.original_url %>
+    </div>
+  <% end %>
+
 
 </div>

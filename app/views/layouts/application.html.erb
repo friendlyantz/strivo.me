@@ -19,11 +19,6 @@
     <%= javascript_importmap_tags %>
   </head>
   <body>
-    <% if likely_webview? %>
-      <div class="container mx-auto px-4">
-        <%= render "application/alerts/unsupported_browser", url: request.original_url %>
-      </div>
-    <% end %>
 
     <script>
       // Make the VAPID public key available to the client as a Uint8Array
