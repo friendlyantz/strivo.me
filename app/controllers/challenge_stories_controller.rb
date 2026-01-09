@@ -1,6 +1,6 @@
 class ChallengeStoriesController < ApplicationController
   before_action :set_challenge_story, only: %i[edit update destroy complete]
-  before_action :require_current_user!, except: %i[show]
+  before_action :require_current_user!, except: %i[index show]
 
   def index
     return @challenge_stories = ChallengeStory.none unless current_user
