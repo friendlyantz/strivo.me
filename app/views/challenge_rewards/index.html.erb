@@ -15,7 +15,8 @@
       <% if !@challenge_story.completed? && @challenge_story.finished? %>
         <%= button_to "Mark Complete", complete_challenge_story_path(@challenge_story), 
                 method: :patch, 
-                class: "btn btn-success",
+                # FIXME: styling mt/mb alignment for button_to and link_to
+                class: "btn btn-success mt-2 mb-2",
                 data: { turbo_confirm: "Are you sure you want to mark this challenge as complete? Can't be undone" } %>
       <% end %>
     <% end %>
