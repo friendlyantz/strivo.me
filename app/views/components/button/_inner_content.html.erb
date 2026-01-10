@@ -1,0 +1,8 @@
+<%= c.icon_svg %>
+<%= c.text %>
+
+<% if c.badge_text.present? %>
+  <div class="badge badge-sm bg-<%= c.badge_color %>-content/20">
+    <%= c.badge_text %>
+  </div>
+<% end %>

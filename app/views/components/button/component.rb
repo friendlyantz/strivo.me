@@ -1,5 +1,5 @@
 class Button::Component
-  attr_reader :action, :icon, :color, :text, :badge_text, :badge_color, :button_css_options
+  attr_reader :action, :icon, :color, :text, :badge_text, :badge_color, :button_css_options, :link_to
 
   def initialize(
     # action:,
@@ -8,7 +8,8 @@ class Button::Component
     color: "primary",
     badge_text: nil,
     badge_color: "primary",
-    button_css_options: nil
+    button_css_options: nil,
+    link_to: true
 
   )
     # @action = action
@@ -18,6 +19,7 @@ class Button::Component
     @badge_text = badge_text
     @badge_color = badge_color
     @button_css_options = button_css_options
+    @link_to = link_to
   end
 
   def icon_svg
@@ -55,7 +57,7 @@ class Button::Component
       SVG
     when :pencil
       <<~SVG.html_safe
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
         </svg>
       SVG
@@ -68,24 +70,43 @@ class Button::Component
     when :light_bolt
       # Stashed / unused icon
       <<~SVG.html_safe
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
         </svg>
       SVG
     when :check_with_circle
       # Stashed / unused icon
       <<~SVG.html_safe
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      SVG
+    when :heart_filled
+      <<~SVG.html_safe
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 fill-current" viewBox="0 0 24 24">
+          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+        </svg>
+      SVG
+    when :heart_empty
+      <<~SVG.html_safe
+           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
         </svg>
       SVG
     end
   end
 
   def render_in(view_context)
-    view_context.render(
-      partial: "components/button/component",
-      locals: {c: self}
-    )
+    if link_to
+      view_context.render(
+        partial: "components/button/component",
+        locals: {c: self}
+      )
+    else
+      view_context.render(
+        partial: "components/button/inner_content",
+        locals: {c: self}
+      )
+    end
   end
 end
