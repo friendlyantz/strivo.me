@@ -1,7 +1,8 @@
-<div class="card bg-gradient-to-br from-primary/5 to-secondary/5 shadow-xl mb-6">
-  <div class="card-body">
-    <% current_challenge_participant = challenge_story.active_participants.find { |p| p.user_id == current_user&.id } %>
-    <%= render "challenge_rewards/pledge_reminder_banner", current_challenge_participant: current_challenge_participant %>
+<% current_challenge_participant = challenge_story.active_participants.find { |p| p.user_id == current_user&.id } %>
+<%= render "challenge_rewards/pledge_reminder_banner", current_challenge_participant: current_challenge_participant %>
+<div class="collapse collapse-arrow bg-base-100 border-base-300 border mb-4">
+  <input type="checkbox" />
+  <div class="collapse-title font-semibold after:start-5 after:end-auto pe-4 ps-12">
 
     <div class="flex items-start justify-between">
       <div>
@@ -17,6 +18,8 @@
       </div>
     </div>
 
+
+    <%# TODO: make an alert component %>
     <% if challenge_story.finished? %>
       <%= link_to challenge_story_challenge_rewards_path(challenge_story) do %>
         <div class="alert alert-warning mt-3 py-2">
@@ -27,6 +30,10 @@
         </div>
       <% end %>
     <% end %>
+
+  </div>
+
+  <div class="collapse-content text-sm">
 
     <% if challenge_story.challenge_rewards_count > 0 %>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
@@ -120,5 +127,8 @@
 
       </div>
     <% end %>
+
+
   </div>
+
 </div>
