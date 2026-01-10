@@ -17,6 +17,7 @@
   <%= render "rewards_section", challenge_story: @challenge_story %>
 
   <%= turbo_stream_from @challenge_story %>
+
   <%= turbo_frame_tag "challenge_story" do %>
     <%= render "challenge_stories/progress_timeline", challenge_story: @challenge_story, participants: @participants %>
   <% end %>

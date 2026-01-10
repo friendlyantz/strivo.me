@@ -1,111 +1,138 @@
 <%# locals: (challenge_story:, participants:) %>
 <%# Competitive Leaderboard with Progress Bars %>
-<%= render "time_progress", challenge_story: challenge_story %>
-
 <% if participants.any? %>
   <% 
-    # Calculate total days and max possible check-ins
-    total_days = (Time.zone.today - challenge_story.start.to_date).to_i + 1
-    total_days = [total_days, (challenge_story.finish - challenge_story.start).to_i + 1].min
-    
-    # Sort participants by check-ins for ranking
-    ranked_participants = participants.sort_by { |p| -p.challenge_check_ins_count }
-  %>
+        total_days = (Time.zone.today - challenge_story.start.to_date).to_i + 1
+        total_days = [total_days, (challenge_story.finish - challenge_story.start).to_i + 1].min
+        total_days = [total_days, 1].max
 
-  <div class="space-y-3 mb-6">
-    <% ranked_participants.each_with_index do |participant, index| %>
-      <% 
-        check_ins = participant.challenge_check_ins_count
-        completion_rate = total_days > 0 ? (check_ins.to_f / total_days * 100).round : 0
-        latest_check_in = participant.challenge_check_ins.order(created_at: :desc).limit(1).first
-        
-        # Rank styling
-        rank_class = case index
-          when 0 then "badge-warning"  # Gold
-          when 1 then "badge-warning badge-dash"  # Silver
-          when 2 then "badge-warning badge-soft"   # Bronze
-          else "badge-ghost"
-        end
-        
-        progress_color = if completion_rate >= 90
-          "progress-success"
-        elsif completion_rate >= 70
-          "progress-primary"
-        elsif completion_rate >= 50
-          "progress-warning"
-        else
-          "progress-error"
-        end
+        sorted_participants = participants.sort_by { |p| -p.challenge_check_ins_count }
+
       %>
-
-      <div class="card bg-base-100 shadow-lg hover:shadow-xl transition-all border-2 <%= index == 0 ? 'border-warning' : 'border-base-300' %>">
-        <div class="card-body p-4">
-          <div class="flex items-center gap-4">
-            <!-- Rank Badge -->
-            <div class="flex-shrink-0">
-              <div class="badge <%= rank_class %> badge-lg font-bold text-lg px-3 py-4">
-                #<%= index + 1 %>
-              </div>
-            </div>
-
-            <!-- Avatar -->
-            <div class="avatar <%= index == 0 ? 'online' : '' %>">
-              <div class="w-16 h-16 <%= index == 0 ? 'ring-4 ring-warning ring-offset-2' : 'ring-2 ring-base-300 ring-offset-1' %> rounded-full">
-                <%= image_tag "https://api.dicebear.com/9.x/avataaars-neutral/svg?seed=#{participant.name}", 
-                  class: "w-full h-full rounded-full object-cover", 
-                  loading: "lazy" %>
-              </div>
-            </div>
+<% end %>
 
 
-            <!-- Progress Info -->
-            <div class="flex-1 min-w-0">
-              <div class="flex items-center gap-2 mb-2">
-                <h3 class="font-bold text-lg truncate"><%= participant.user.username %></h3>
-                <% if index == 0 %>
-                  <span class="badge badge-sm badge-warning gap-1">
-                    👑 Leader
-                  </span>
-                <% end %>
-              </div>
+<div class="collapse collapse-arrow bg-base-100 border-base-300 border mb-4">
+  <input type="checkbox" />
+  <div class="collapse-title font-semibold after:start-5 after:end-auto pe-4 ps-12">
 
-              <!-- Progress Bar -->
-              <div class="space-y-1">
-                <div class="flex justify-between items-center text-xs font-semibold">
-                  <span><%= check_ins %>/<%= total_days %> check-ins</span>
-                  <span class="<%= completion_rate >= 80 ? 'text-success' : 'text-base-content/70' %>">
-                    <%= completion_rate %>%
-                  </span>
+    <div class="flex items-start justify-between">
+      <div>
+        <h2 class="card-title text-2xl flex items-center gap-2 mb-2">
+          Participant Progress </h2>
+      </div>
+    </div>
+
+
+    <% if participants.any? %>
+
+      <% sorted_participants.each do |participant| %>
+        <% completion_rate = (participant.challenge_check_ins_count.to_f / total_days * 100).round %>
+        <% progress_color = completion_rate >= 90 ? "progress-success" : completion_rate >= 70 ? "progress-primary" : completion_rate >= 50 ? "progress-warning" : "progress-error" %>
+        <div class="flex items-start gap-1">
+          <div class="avatar w-5 h-5" title="<%= participant.user.username %>">
+            <%= image_tag(
+                  "https://api.dicebear.com/9.x/avataaars-neutral/svg?seed=#{participant.name}",
+                    class: "w-full h-full object-cover",
+                    loading: "lazy"
+                ) %>
+          </div>
+          <div class="min-w-6">
+            <%= participant.user.username.first(2)  %>
+          </div>
+          <progress class="progress h-5 <%= progress_color %>" value="<%= completion_rate %>" max="100" title="<%= participant.user.username %>: <%= completion_rate %>%" style="min-width: 30px;"></progress>
+          <span class="text-xs opacity-70 min-w-[2.5rem]"><%= completion_rate %>%</span>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+
+  <div class="collapse-content text-sm">
+    <%= render "time_progress", challenge_story: challenge_story %>
+
+    <% if participants.any? %>
+      <div class="space-y-3 mb-6">
+        <% sorted_participants.each_with_index do |participant, index| %>
+          <% 
+            check_ins = participant.challenge_check_ins_count
+            completion_rate = (check_ins.to_f / total_days * 100).round
+            latest_check_in = participant.challenge_check_ins.order(created_at: :desc).limit(1).first
+            rank_class = index == 0 ? "badge-warning" : index == 1 ? "badge-warning badge-dash" : index == 2 ? "badge-warning badge-soft" : "badge-ghost"
+            progress_color = completion_rate >= 90 ? "progress-success" : completion_rate >= 70 ? "progress-primary" : completion_rate >= 50 ? "progress-warning" : "progress-error"
+          %>
+          <div class="card bg-base-100 shadow-lg hover:shadow-xl transition-all border-2 <%= index == 0 ? 'border-warning' : 'border-base-300' %>">
+            <div class="card-body p-2">
+              <div class="flex items-center gap-4">
+
+                <!-- Progress Info -->
+                <div class="flex-1 min-w-0">
+
+                  <div class="flex items-center gap-2 mb-1">
+
+                    <!-- Rank Badge -->
+                    <div class="flex-shrink-0">
+                      <div class="badge <%= rank_class %> badge-sm font-bold px-3 py-4">
+                        #<%= index + 1 %>
+                      </div>
+                    </div>
+
+                    <!-- Avatar -->
+                    <div class="avatar <%= index == 0 ? 'online' : '' %>">
+                      <div class="w-6 h-6 <%= index == 0 ? 'ring-4 ring-warning ring-offset-2' : 'ring-2 ring-base-300 ring-offset-1' %> rounded-full">
+                        <%= image_tag("https://api.dicebear.com/9.x/avataaars-neutral/svg?seed=#{participant.name}",
+                  class: "w-full h-full rounded-full object-cover",
+                  loading: "lazy" ) %>
+                      </div>
+                    </div>
+
+                    <h3 class="font-bold text-lg truncate"><%= participant.user.username %></h3>
+                    <% if index == 0 %>
+                      <span class="badge badge-m badge-warning gap-1">
+                        Leader
+                      </span>
+                    <% end %>
+                  </div>
+
+                  <!-- Progress Bar -->
+                  <div class="space-y-1">
+                    <div class="flex justify-between items-center text-xs font-semibold">
+                      <span><%= check_ins %>/<%= total_days %> check-ins</span>
+                      <span class="<%= completion_rate >= 80 ? 'text-success' : 'text-base-content/70' %>">
+                        <%= completion_rate %>%
+                      </span>
+                    </div>
+                    <progress class="progress <%= progress_color %> h-3" value="<%= completion_rate %>" max="100"></progress>
+                  </div>
+
+                  <!-- Latest Activity -->
+                  <% if latest_check_in %>
+                    <div class="flex items-center gap-2 mt-2 text-xs opacity-70">
+                      <svg class="h-3 w-3 text-success flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                      </svg>
+                      <span class="truncate"><%= latest_check_in.message.truncate(40) %></span>
+                      <span class="text-base-content/50">· <%= time_ago_in_words(latest_check_in.created_at) %> ago</span>
+                    </div>
+                  <% end %>
+
                 </div>
-                <progress class="progress <%= progress_color %> h-3" value="<%= completion_rate %>" max="100"></progress>
-              </div>
 
-              <!-- Latest Activity -->
-              <% if latest_check_in %>
-                <div class="flex items-center gap-2 mt-2 text-xs opacity-70">
-                  <svg class="h-3 w-3 text-success flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                  </svg>
-                  <span class="truncate"><%= latest_check_in.message.truncate(40) %></span>
-                  <span class="text-base-content/50">· <%= time_ago_in_words(latest_check_in.created_at) %> ago</span>
+                <!-- Stats Badge -->
+                <div class="flex-shrink-0 text-center hidden sm:block">
+                  <div class="stat p-2">
+                    <div class="stat-value text-2xl <%= completion_rate >= 80 ? 'text-success' : 'text-primary' %>">
+                      <%= completion_rate %>%
+                    </div>
+                    <div class="stat-desc text-xs">pace</div>
+                  </div>
                 </div>
-              <% end %>
-            </div>
-
-            <!-- Stats Badge -->
-            <div class="flex-shrink-0 text-center hidden sm:block">
-              <div class="stat p-2">
-                <div class="stat-value text-2xl <%= completion_rate >= 80 ? 'text-success' : 'text-primary' %>">
-                  <%= completion_rate %>%
-                </div>
-                <div class="stat-desc text-xs">pace</div>
               </div>
             </div>
           </div>
-        </div>
+        <% end %>
       </div>
+    <% else %>
+      <%= render "challenge_stories/alerts/no_participants" %>
     <% end %>
   </div>
-<% else %>
-  <%= render "challenge_stories/alerts/no_participants" %>
-<% end %>
+</div>
