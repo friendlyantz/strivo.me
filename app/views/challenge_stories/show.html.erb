@@ -18,10 +18,10 @@
 
   <%= turbo_stream_from @challenge_story %>
   <%= turbo_frame_tag "challenge_story" do %>
-    <%= render "progress_timeline", challenge_story: @challenge_story %>
+    <%= render "challenge_stories/progress_timeline", challenge_story: @challenge_story, participants: @participants %>
   <% end %>
 
-  <%= render "add_check_in_section" %>
+  <%= render "challenge_stories/add_check_in_section", current_challenge_participant: @current_challenge_participant, challenge_story: @challenge_story, time_of_a_next_check_in: @time_of_a_next_check_in %>
 
   <div class="divider">Check-ins</div>
 

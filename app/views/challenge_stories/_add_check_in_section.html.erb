@@ -1,10 +1,11 @@
+<%# locals: (current_challenge_participant:, challenge_story:, time_of_a_next_check_in:) %>
 <% if current_user %>
-  <% if @current_challenge_participant&.active? %>
-    <% unless @challenge_story.completed? || Time.zone.today > @challenge_story.finish.to_date + 1.day %>
-      <% if @time_of_a_next_check_in.present? %>
-        <%= render "challenge_stories/alerts/no_more_check_ins_for_today", time_of_a_next_check_in: @time_of_a_next_check_in %>
+  <% if current_challenge_participant&.active? %>
+    <% unless challenge_story.completed? || Time.zone.today > challenge_story.finish.to_date + 1.day %>
+      <% if time_of_a_next_check_in.present? %>
+        <%= render "challenge_stories/alerts/no_more_check_ins_for_today", time_of_a_next_check_in: time_of_a_next_check_in %>
       <% else %>
-        <%= turbo_frame_tag "new_message", src: new_challenge_story_challenge_check_in_path(@challenge_story) %>
+        <%= turbo_frame_tag "new_message", src: new_challenge_story_challenge_check_in_path(challenge_story) %>
       <% end %>
     <% else %>
       <%= render "challenge_stories/alerts/no_more_check_ins_for_completed_challenge" %>
@@ -21,10 +22,10 @@
               <h3 class="font-semibold text-lg mb-2">Join this challenge to check in</h3>
               <p class="text-sm opacity-70 mb-4">You must be a participant to track your progress.</p>
 
-              <% if @challenge_story.at_capacity? %>
+              <% if challenge_story.at_capacity? %>
                 <%= render "challenge_stories/alerts/challenge_at_capacity" %>
               <% else %>
-                <%= render "button_join_challenge", colour_scheme: "warning"  %>
+                <%= render "challenge_stories/button_join_challenge", colour_scheme: "warning", challenge_story: challenge_story %>
               <% end %>
             </div>
           </div>

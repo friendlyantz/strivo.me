@@ -36,7 +36,7 @@
       <h2 class="text-xl font-semibold mb-4">Rewards Pledged to You</h2>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
         <% @rewards_received.each do |reward| %>
-          <%= render "reward_card", reward: reward, is_giver: false %>
+          <%= render "reward_card", reward: reward, challenge_story: @challenge_story %>
         <% end %>
       </div>
     <% end %>
@@ -46,7 +46,7 @@
       <h2 class="text-xl font-semibold mb-4">Rewards You've Pledged</h2>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
         <% @rewards_given.each do |reward| %>
-          <%= render "reward_card", reward: reward, is_giver: true %>
+          <%= render "reward_card", reward: reward, challenge_story: @challenge_story %>
         <% end %>
       </div>
     <% end %>
@@ -56,7 +56,7 @@
       <h2 class="text-xl font-semibold mb-4">All Other Rewards</h2>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <% @rewards_others.each do |reward| %>
-          <%= render "reward_card", reward: reward, is_giver: false %>
+          <%= render "reward_card", reward: reward, challenge_story: @challenge_story %>
         <% end %>
       </div>
     <% end %>
@@ -65,7 +65,7 @@
     <h2 class="text-xl font-semibold mb-4">All Rewards</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <% @rewards_others.each do |reward| %>
-        <%= render "reward_card", reward: reward, is_giver: false %>
+        <%= render "reward_card", reward: reward, challenge_story: @challenge_story %>
       <% end %>
     </div>
   <% end %>

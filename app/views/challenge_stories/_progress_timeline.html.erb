@@ -1,14 +1,15 @@
+<%# locals: (challenge_story:, participants:) %>
 <%# Competitive Leaderboard with Progress Bars %>
 <%= render "time_progress", challenge_story: challenge_story %>
 
-<% if @participants.any? %>
+<% if participants.any? %>
   <% 
     # Calculate total days and max possible check-ins
     total_days = (Time.zone.today - challenge_story.start.to_date).to_i + 1
     total_days = [total_days, (challenge_story.finish - challenge_story.start).to_i + 1].min
     
     # Sort participants by check-ins for ranking
-    ranked_participants = @participants.sort_by { |p| -p.challenge_check_ins_count }
+    ranked_participants = participants.sort_by { |p| -p.challenge_check_ins_count }
   %>
 
   <div class="space-y-3 mb-6">

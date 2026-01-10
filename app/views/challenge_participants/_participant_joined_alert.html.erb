@@ -1,17 +1,17 @@
-<% @current_challenge_participant ||= current_challenge_participant  %>
+<%# locals: (current_challenge_participant:) %>
 <div class="alert alert-success shadow-lg">
   <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
   </svg>
   <div class="flex-1">
     <h3 class="font-bold">You've joined!</h3>
-    <p class="text-sm">Welcome to the challenge, <%= @current_challenge_participant.name %>!</p>
+    <p class="text-sm">Welcome to the challenge, <%= current_challenge_participant.name %>!</p>
   </div>
 
-  <%= link_to challenge_participant_path(@current_challenge_participant), method: :delete, data: { turbo_confirm: "Are you sure you want to leave this challenge?" } do %>
+  <%= link_to challenge_participant_path(current_challenge_participant), method: :delete, data: { turbo_confirm: "Are you sure you want to leave this challenge?" } do %>
     <%= render Button::Component.new( color: "ghost", text: "Leave Challenge")  %>
   <% end %>
 
 </div>
 
-<%= render "challenge_rewards/pledge_reminder_banner", current_challenge_participant: @current_challenge_participant %>
+<%= render "challenge_rewards/pledge_reminder_banner", current_challenge_participant: current_challenge_participant %>

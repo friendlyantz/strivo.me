@@ -1,15 +1,16 @@
+<%# locals: (challenge_story:, challenge_check_in:) %>
 <%= turbo_frame_tag "new_message" do %>
   <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-full border p-4" data-controller="image-compressor">
-    <%= form_with(model: [@challenge_story, @challenge_check_in], class: "contents") do |form| %>
-      <% if @challenge_check_in.errors[:base].any? %>
+    <%= form_with(model: [challenge_story, challenge_check_in], class: "contents") do |form| %>
+      <% if challenge_check_in.errors[:base].any? %>
         <div class="alert alert-error mb-4">
-          <span><%= @challenge_check_in.errors[:base].first %></span>
+          <span><%= challenge_check_in.errors[:base].first %></span>
         </div>
       <% end %>
 
       <%= 
         form.text_area :message,
-        class: ["textarea", {"border-gray-400 focus:outline-blue-600 w-full": @challenge_check_in.errors[:message].none?, "border-red-400 focus:outline-red-600": @challenge_check_in.errors[:message].any?}],
+        class: ["textarea", {"border-gray-400 focus:outline-blue-600 w-full": challenge_check_in.errors[:message].none?, "border-red-400 focus:outline-red-600": challenge_check_in.errors[:message].any?}],
         id: "message",
         placeholder: "check in report, this cannot be edited later!",
         required: true
@@ -26,9 +27,9 @@
         }
        %>
 
-      <% if @challenge_check_in.errors[:photo].any? %>
+      <% if challenge_check_in.errors[:photo].any? %>
         <div class="alert alert-error mt-2">
-          <span><%= @challenge_check_in.errors[:photo].first %></span>
+          <span><%= challenge_check_in.errors[:photo].first %></span>
         </div>
       <% end %>
 
