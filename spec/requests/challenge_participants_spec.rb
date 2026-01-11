@@ -56,7 +56,7 @@ RSpec.describe "ChallengeParticipants", type: :request do
       delete challenge_participant_path(participant)
 
       expect(participant.reload).to be_inactive
-      expect(response).to redirect_to(challenge_stories_path)
+      expect(response).to redirect_to(challenge_story_path(story))
     end
   end
 end

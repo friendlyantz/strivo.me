@@ -38,7 +38,7 @@
     <% end %>
 
     <% if local_assigns[:show_actions] %>
-      <div class="flex justify-between items-center gap-3 mt-3">
+      <div class="flex justify-between items-center gap-3">
         <% if current_user %>
           <%= link_to edit_challenge_story_path(challenge_story) do %>
             <%= render Button::Component.new(text: "Edit", icon: :pencil, color: "ghost") %>
@@ -48,12 +48,10 @@
     <% end %>
 
 
-    <div class="divider"></div>
-
     <div class="flex items-center gap-3">
       <span class="text-sm font-semibold">Participants:</span>
       <div class="avatar-group -space-x-4">
-        <% challenge_story.challenge_participants.limit(5).each do |participant| %>
+        <% challenge_story.challenge_participants.active.each do |participant| %>
           <div class="avatar">
             <div class="w-10">
               <%= image_tag "https://api.dicebear.com/9.x/avataaars-neutral/svg?seed=#{participant.name}&options[skinColor]=random&size=80", 
@@ -63,16 +61,6 @@
             </div>
           </div>
         <% end %>
-        <% if challenge_story.challenge_participants_count > 5 %>
-          <div class="avatar placeholder">
-            <div class="w-10 bg-neutral text-neutral-content">
-              <span>+<%= challenge_story.challenge_participants_count - 5 %></span>
-            </div>
-          </div>
-        <% end %>
-      </div>
-      <div class="text-sm opacity-70">
-        <%= pluralize(challenge_story.challenge_participants.count, 'participant') %>
       </div>
     </div>
   </div>

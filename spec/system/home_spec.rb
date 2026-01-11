@@ -6,7 +6,7 @@ RSpec.describe "Home Page", type: :system do
   scenario "visitor sees the landing page" do
     home_page.load
 
-    expect(page).to have_content("Bet on yourself")
+    expect(page).to have_content("Bet on Yourself")
     expect(page).to have_content("Strivo")
   end
 

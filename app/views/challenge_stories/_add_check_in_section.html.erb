@@ -11,6 +11,8 @@
       <%= render "challenge_stories/alerts/no_more_check_ins_for_completed_challenge" %>
     <% end %>
   <% else %>
+    <turbo-frame id="story-<%= challenge_story.id %>-joining_participant"> </turbo-frame>
+
     <turbo-frame id="new_message">
       <div class="card bg-warning/10 border border-warning shadow-lg mb-6">
         <div class="card-body">

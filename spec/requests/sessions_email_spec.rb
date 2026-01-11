@@ -5,13 +5,12 @@ require "rails_helper"
 RSpec.describe "Sessions Email Authentication", type: :request do
   let(:user) { create(:user, email: "test@example.com") }
 
-
   describe "GET /email/session/new" do
     it "returns email sign-in form" do
       get new_email_session_path
 
       expect(response).to have_http_status(:success)
-      expect(response.body).to include("Sign In with Email")
+      expect(response.body).to include("Continue with Email")
       expect(response.body).to include("email")
     end
   end
@@ -19,24 +18,24 @@ RSpec.describe "Sessions Email Authentication", type: :request do
   describe "POST /email/session" do
     it "sends magic link email to registered user" do
       expect {
-        post email_session_path, params: { session: { email: user.email } }
+        post email_session_path, params: {session: {email: user.email}}
       }.to have_enqueued_job
 
       expect(response).to have_http_status(:success)
       expect(response.body).to include("Check your email")
     end
 
-    it "returns error for unregistered email" do
-      post email_session_path, params: { session: { email: "unknown@example.com" } }
+    it "returns success for unregistered email so attackers can't enumerate users" do
+      post email_session_path, params: {session: {email: "unknown@example.com"}}
 
-      expect(response).to have_http_status(:unprocessable_content)
-      expect(response.body).to include("No account found")
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include("Check your email for a sign-in link. It expires in 24 hours.")
     end
 
     it "enforces rate limit (3 emails per 15 minutes)" do
       user.update!(last_email_sent_at: 5.minutes.ago)
 
-      post email_session_path, params: { session: { email: user.email } }
+      post email_session_path, params: {session: {email: user.email}}
 
       expect(response).to have_http_status(:too_many_requests)
       expect(response.body).to include("recently sent")
@@ -44,14 +43,14 @@ RSpec.describe "Sessions Email Authentication", type: :request do
 
     it "strips and lowercases email" do
       create(:user, email: "test@example.com")
-      post email_session_path, params: { session: { email: "  TEST@EXAMPLE.COM  " } }
+      post email_session_path, params: {session: {email: "  TEST@EXAMPLE.COM  "}}
 
       expect(response).to have_http_status(:success)
       expect(response.body).to include("Check your email")
     end
 
     it "generates and stores hashed token" do
-      post email_session_path, params: { session: { email: user.email } }
+      post email_session_path, params: {session: {email: user.email}}
 
       user.reload
       expect(user.email_login_token).to be_present
@@ -59,7 +58,7 @@ RSpec.describe "Sessions Email Authentication", type: :request do
     end
 
     it "sets token expiry to 24 hours from now" do
-      post email_session_path, params: { session: { email: user.email } }
+      post email_session_path, params: {session: {email: user.email}}
 
       user.reload
       expect(user.email_login_token_expires_at).to be_within(5.seconds).of(24.hours.from_now)
@@ -70,7 +69,7 @@ RSpec.describe "Sessions Email Authentication", type: :request do
     it "signs in user with valid token" do
       token = user.generate_email_login_token!
 
-      get verify_email_session_path, params: { token: token }
+      get verify_email_session_path, params: {token: token}
 
       expect(response).to redirect_to(root_path)
       expect(session[:user_id]).to eq(user.id)
@@ -79,7 +78,7 @@ RSpec.describe "Sessions Email Authentication", type: :request do
     it "clears token after successful verification" do
       token = user.generate_email_login_token!
 
-      get verify_email_session_path, params: { token: token }
+      get verify_email_session_path, params: {token: token}
 
       user.reload
       expect(user.email_login_token).to be_nil
@@ -91,14 +90,14 @@ RSpec.describe "Sessions Email Authentication", type: :request do
 
       expect(user.email_verified?).to be false
 
-      get verify_email_session_path, params: { token: token }
+      get verify_email_session_path, params: {token: token}
 
       user.reload
       expect(user.email_verified?).to be true
     end
 
     it "returns error for invalid token" do
-      get verify_email_session_path, params: { token: "invalid-token" }
+      get verify_email_session_path, params: {token: "invalid-token"}
 
       expect(response).to redirect_to(new_webauthn_session_path)
       expect(flash[:alert]).to include("Invalid or expired")
@@ -109,7 +108,7 @@ RSpec.describe "Sessions Email Authentication", type: :request do
       token = user.generate_email_login_token!
       user.update!(email_login_token_expires_at: 1.hour.ago)
 
-      get verify_email_session_path, params: { token: token }
+      get verify_email_session_path, params: {token: token}
 
       expect(response).to redirect_to(new_webauthn_session_path)
       expect(flash[:alert]).to include("expired")
@@ -117,7 +116,7 @@ RSpec.describe "Sessions Email Authentication", type: :request do
     end
 
     it "returns error when no token provided" do
-      get verify_email_session_path, params: { token: "" }
+      get verify_email_session_path, params: {token: ""}
 
       expect(response).to redirect_to(new_webauthn_session_path)
       expect(flash[:alert]).to include("Invalid sign-in link")
@@ -131,7 +130,7 @@ RSpec.describe "Sessions Email Authentication", type: :request do
       expect(UserMailer).to receive(:magic_link_email).and_return(mail)
       expect(mail).to receive(:deliver_later)
 
-      post email_session_path, params: { session: { email: user.email } }
+      post email_session_path, params: {session: {email: user.email}}
     end
   end
 end

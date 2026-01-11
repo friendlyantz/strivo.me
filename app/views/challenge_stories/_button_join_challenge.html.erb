@@ -1,12 +1,10 @@
 <%# locals: (colour_scheme: "primary", challenge_story:) %>
-<%= link_to challenge_participants_path(challenge_story_id: challenge_story.id), data: { turbo_method: :post } do %>
-  <turbo-frame id="story-<%= challenge_story.id %>-joining_participant">
-    <%= render Button::Component.new(
+<%= link_to challenge_participants_path(challenge_story_id: challenge_story.id), data: { turbo_method: :post}, id: "join_challenge" do %>
+  <%= render Button::Component.new(
       color: colour_scheme,
       icon: :user_join,
       text: "Join Challenge",
       badge_text: "#{challenge_story.available_spots} #{'spot'.pluralize(challenge_story.available_spots)} left",
       badge_color: colour_scheme
     )  %>
-  </turbo-frame>
 <% end %>

@@ -17,10 +17,10 @@ RSpec.describe "Home", type: :request do
 
       before { sign_in_as(user) }
 
-      it "redirects to the latest active challenge" do
+      it "renders home page" do
         get root_path
 
-        expect(response).to redirect_to(challenge_story_path(story))
+        expect(response).to have_http_status(:success)
       end
     end
 
@@ -29,10 +29,10 @@ RSpec.describe "Home", type: :request do
 
       before { sign_in_as(user) }
 
-      it "redirects to challenge stories index" do
+      it "renders home page" do
         get root_path
 
-        expect(response).to redirect_to(challenge_stories_path)
+        expect(response).to have_http_status(:success)
       end
     end
   end

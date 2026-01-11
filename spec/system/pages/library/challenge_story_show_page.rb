@@ -5,7 +5,7 @@ class Library::ChallengeStoryShowPage < BasePage
 
   element :story_title, "h1"
   element :description, "p"
-  element :join_button, 'button.btn-warning', text: "Join Challenge"
+  element :join_button, "#join_challenge", text: "Join Challenge"
   element :edit_link, 'a[href*="edit"]'
   element :delete_button, 'button[data-turbo-method="delete"]'
   elements :participants, ".participant"
@@ -14,7 +14,7 @@ class Library::ChallengeStoryShowPage < BasePage
 
   class << self
     def default_params
-      { id: nil }
+      {id: nil}
     end
   end
 

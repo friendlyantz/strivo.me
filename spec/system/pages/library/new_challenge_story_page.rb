@@ -7,7 +7,7 @@ class Library::NewChallengeStoryPage < BasePage
   element :description_field, 'textarea[name="challenge_story[description]"]'
   element :start_field, 'input[name="challenge_story[start]"]'
   element :finish_field, 'input[name="challenge_story[finish]"]'
-  element :submit_button, 'input[type="submit"]'
+  element :submit_button, 'button[type="submit"]'
 
   def fill_form(title:, description:, start_date:, finish_date:)
     title_field.set(title)
